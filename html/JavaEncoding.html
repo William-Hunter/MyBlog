@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>java encoding</title>
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	  </head>
+	  <body class="BK">
+	
+        
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header"> <a class="navbar-brand">我的博客</a> </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ol class="nav navbar-nav">
+        <li class=""><a href="../index.html">欢迎界面</a></li>
+        <li class=""><a href="Lead.html">主页</a></li>
+        <li class="active"><a href="#">JAVA编码</a></li>
+      </ol>
+      <div class="navbar-right navbar-form"><a class="btn btn-default" href="form.html" role="button">登陆留言</a></div>
+    </div>
+    <!--/.nav-collapse --> 
+  </div>
+</nav>
+    <div class="container">
+            <div class="page-header"><h1>Java 的编码问题</h1></div>
+            
+            <div class="row">
+            <div class="col-md-offset-1 col-md-8">
+            <img src="..\picture\java\encoding1.jpg">
+			<p>这个问题，很明显，这是一个文字编码的问题，在.java文件中所有的中文都无法正常显示，这是由于当时读取时使用的工具的编码与项目的保存时的编码不一致所致，当把编码方式调整之后，显示正常，</p>
+			<img src="..\picture\java\encoding2.jpg">
+			<p>这个文档的编码方式是UTF-8，但是在不同平台上打开时，解码方式却有可能不同，<br/>
+			刚开始很头疼，因为不知道怎么在对方不做出手动调整的前提下做出修改，使对方可以正常读取文件，<br/>
+			于是上网查了很多资料，于是接触到一个属性，“file.encoding”,于是，我做了一个测试，</p>
+			<img src="..\picture\java\encoding3.jpg">
+			<img src="..\picture\java\encoding4.jpg">
+			<img src="..\picture\java\encoding5.jpg">
+			<img src="..\picture\java\encoding6.jpg">
+			<p>所以，基本可以确定file.encoding内存储的值就是开发工具设置的编码方式，<br/>
+			所以，把这个值改变就可控制开发工具在打开文件时使用的编码方式了吧？？？？？？？？？？？？<br/>
+			在网上找到一段代码，在程序内修改编码，做了个测试 ，</p>
+			<img src="..\picture\java\encoding7.jpg">
+			<img src="..\picture\java\encoding8.jpg">
+			<p>把encoding从UTF8改变为GBK，但是文字没有变化，但是charset的变化与eclipse编码设置改变一致，所以，看来可以从charset入手？？？？？？？，</p>
+			<h3 style="text-align:center">结语</h3>
+			<p>对于项目的开发者来说，未发现使用代码可以改变项目的编码方式，所以如果想要改变项目的编码需要在开发工具内部设置，对于多人跨平台开发项目来说，最好都使用同样的编码方式，否则将会出现项目无法对接的现象。</p>
+            </div>
+            </div>
+			
+		</div>
+		<footer>
+  <hr>
+    <p><b>&copy; william·Lone 2015/6/11    郑州·中国  <b></p>
+</footer>  
+		<script src="../js/bootstrap.js"></script>
+        <script  src="../js/jquery.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>Wipe Cache</title>
+<link rel="stylesheet" href="../css/bootstrap-theme.css">
+<link rel="stylesheet" href="../css/bootstrap.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="BK">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header"> <a class="navbar-brand">我的博客</a> </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ol class="nav navbar-nav">
+        <li class=""><a href="../index.html">欢迎界面</a></li>
+        <li class=""><a href="Lead.html">主页</a></li>
+        <li class="active"><a href="#">C语言清除缓冲区</a></li>
+      </ol>
+      <div class="navbar-right navbar-form"><a class="btn btn-default" href="form.html" role="button">登陆留言</a></div>
+    </div>
+    <!--/.nav-collapse --> 
+  </div>
+</nav>
+<div class="container">
+  <div class="page-header">
+    <h1>清除缓冲区</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-1 col-md-9">
+      <p><a href="http://blog.csdn.net/dragonszy/article/details/8441532">原文连接</a></p>
+      <p>清空键盘缓冲区很多种方法，如用fflush(stdin); rewind(stdin);等，但是在linux这些都不起作用，还得我今天试了半天都没成功，上网搜了一下发现setbuf(stdin, NULL);就能直接清空键盘缓冲区了。
+        以下几个实例：</p>
+      <p>Sample one</p>
+      <pre><code>
+			#include <stdio.h>
+			int main()
+			{
+			    char ch1;
+			    char ch2;
+			    ch1 = getchar();
+			    ch2 = getchar();
+			    printf("%d  %d", ch1, ch2);
+			    return 0;
+			}
+			</code></pre>
+      <p>程序的本意很简单，就是从键盘读入两个字符，然后打印出这两个字符的ASCII码值。可是执行程序后会发现出了问题：当从键盘输入一个字符后，就打印出了结果，根本就没有输入第二个字符程序就结束了。例如用户输入字符’a', 打印结果是97，10。这是为什么呢？</p>
+      <p>【分析】：</p>
+      <p>scanf()和getchar()函数是从输入流缓冲区中读取值的，而并非从键盘(也就是终端)缓冲区读取。而读取时遇到回车(n)而结束的，这个n会一起读入输入流缓冲区的，所以第一次接受输入时取走字符后会留下字符n，这样第二次的读入函数直接从缓冲区中把n取走了，显然读取成功了，所以不会再从终端读取！其实这里的10恰好是回车符！这就是为什么这个程序只执行了一次输入操作就结束的原因！</p>
+      <p>【解决办法】：</p>
+      <p>清空缓冲区的残留数据。<br>
+        使用 fflush(stdin); 或 rewind(stdin); 均可起到清空键盘缓冲区的作用，这两个函数均包含在stdio.h这个头文件中<br>
+        修正后的写法：</p>
+      <p>Sample two</p>
+      <pre><code>
+			/*
+			 * 本程序只适用于　Windows　系统，测试平台：
+			 * Windows XP，Microsoft Visual C++ 6.0 SP6
+			*/
+			#include <stdio.h>
+			int main()
+			{
+			    char ch1;
+			    char ch2;
+			    scanf("%c", &ch1);
+			    printf("ch1 = %d", ch1);
+			    fflush(stdin);   /*清空缓冲区，也可以使用rewind(stdin);*/
+			    scanf("%c", &ch2);
+			    printf("ch2 = %d", ch2);
+			    return 0;
+			}
+			</code></pre>
+      <p>上面的实例只适用于Windows系统，在Linux环境下上面两种写法都是不起作用的，所以还要换个函数。</p>
+      <p>Sample three</p>
+      <pre><code>
+			/*
+			* 本程序适用于　Windows　和　Linux　系统，
+			* 测试环境：
+			* Windows XP，Microsoft Visual C++ 6.0 SP6
+			* Ubuntu　Linux 8.04， NetBeans IDE 6.7
+			*/
+			#include <stdio.h>
+			int main()
+			{
+			    char ch1;
+			    char ch2;
+			    scanf("%c", &ch1);
+			    printf("ch1 = %d", ch1);
+			    setbuf(stdin, NULL);　/*清空缓冲区*/
+			    scanf("%c", &ch2);
+			    printf("ch2 = %d", ch2);
+			    return 0;
+			}
+			</code></pre>
+      <p><a href="http://zhidao.baidu.com/question/191469857.html?fr=qrl&cid=866&index=1&fr2=query">source link</a></p>
+      <p>fflush()函数是标准的作法。<br>
+        setbuf(stdin,NULL)是GCC下可用的一种方法。<br>
+        scanf("%*[^\n]%*c")是用扫描集将缓冲区中的字符全部读取来实现清除缓冲区的动作。<br>
+        后来，搜到有 scanf("%*[^\n]%*c") 这种方法。非常管用，而且还跨平台。</p>
+      <p>scanf("%*[^\n]%*c")解释：<br>
+        ％*〔^\n〕将逐个读取缓冲区中的'\n'字符之前的其它字符，％后面的*表示将读取的这些字符丢弃，前遇到'\n'字符时便停止读取操作，此时，缓冲区中尚有一个'\n'字符遗留，所以后面的％*c将读取并丢弃这个遗留的换行符，这里的星号和前面的星号作用相同。由于所有从键盘的输入都是以回车结束的，而回车会产生一个'\n'字符，所以将'\n'连同它之前的字符全部读取并丢弃之后，也就相当于清除了输入缓冲区。</p>
+    </div>
+  </div>
+</div>
+<footer>
+  <hr>
+  <p><b>&copy; william·Lone 2015/6/11    郑州·中国 <b></p>
+</footer>
+<script src="../js/bootstrap.js"></script> 
+<script  src="../js/jquery.js"></script>
+</body>
+</html>

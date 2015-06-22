@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Scan Web Source Code</title>
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	  </head>
+	  <body class="BK">
+      
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header"> <a class="navbar-brand">我的博客</a> </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ol class="nav navbar-nav">
+        <li class=""><a href="../index.html">欢迎界面</a></li>
+        <li class=""><a href="Lead.html">主页</a></li>
+        <li class="active"><a href="#">下载网页</a></li>
+      </ol>
+      <div class="navbar-right navbar-form"><a class="btn btn-default" href="form.html" role="button">登陆留言</a></div>
+    </div>
+    <!--/.nav-collapse --> 
+  </div>
+</nav>
+
+      
+	    <div class="container">
+        
+		<div class="page-header">
+        <h3>写了一个提取网页中的关键字的java程序，不过需要事先把html文件放在项目文件夹下，</h3>
+        </div>	
+        
+              <div class="row">
+            <div class="col-md-offset-1 col-md-9">
+<img src="..\picture\HtmlFileCode\1.jpg" width="960px">
+			<p>因为html源码中所有我们想要的关键内容都被包含在<br/>
+			<code> td /td /tr </code><br/>
+			这些标签里面，所以，我们可以把这些标签作为写入的判断标准，<br/>
+			首先如果输入的字符如果为‘<’，那么会一直把它存到一个字符串里直到'>'为止。<br/>
+			然后把读到的字符串与预存的字符串作比较，判断它到底是td，还是/td,还是/tr，不同的标签，有不同的写入内容，分别与制表，换行相对应，</p>
+			<img src="..\picture\HtmlFileCode\2.png" width="960px">
+			<img src="..\picture\HtmlFileCode\3.png" width="960px">
+            </div>
+            </div>
+        
+			
+			<p>GitHub项目地址:
+			<a href="https://github.com/William-Hunter/read_web_file/tree/master/read_web_file">（java版本）</a>
+			<a href="https://github.com/William-Hunter/TakeNews_C_version/tree/master/TakeNews">（C语言版本）</a></p>
+            
+		</div>
+		<footer>
+  <hr>
+    <p><b>&copy; william·Lone 2015/6/11    郑州·中国  <b></p>
+</footer>  
+		<script src="../js/bootstrap.js"></script>
+        <script  src="../js/jquery.js"></script>
+	</body>
+
+</html>
