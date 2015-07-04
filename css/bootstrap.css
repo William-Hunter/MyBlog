@@ -3000,6 +3000,13 @@ select[multiple].form-group-lg .form-control {
     padding-top: 6px;
   }
 }
+
+@media (max-width: 480px) {
+	img{
+		width:250px;
+	}	
+}
+
 .btn {
   display: inline-block;
   padding: 6px 12px;
